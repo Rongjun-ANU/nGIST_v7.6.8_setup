@@ -14,6 +14,12 @@
 ####    READ THIS FIRST #################################################################################
 #########################################################################################################
 
+**************************************************************************************************
+*** IMPORTANT: for the current v7.6.8 Setonix setup, run make_gist_config_try.py.              ***
+*** Do NOT use make_gist_config.py as the default generator for this repository.                ***
+*** make_gist_config.py is kept only as the older/reference version.                            ***
+**************************************************************************************************
+
 These instructions are intended to simplify and homogenize the set-up of GIST configuration files
 used as input to run GIST and create MAUVE data products.
 
@@ -46,20 +52,33 @@ You do need:
 First, make sure you know:
 
 -- How many CPUs you want to use
--- The coordinates (in pixels) of the centre of the cube
--- Check that the name of the master_config, mauve_info_file and cube_sub listed in the "make_gist_config" file are correct. 
+-- The coordinates (in pixels) of the centre of the cube, if you want to override the CSV value
+-- Check that the name of the master_config, mauve_info_file, cube_centers_file and cube_sub listed in the "make_gist_config_try" file are correct. 
 
 
 Then, you can run 
 
->>> python make_gist_config.py  GALAXYID  -cpu NN -center NN,NN
+>>> python make_gist_config_try.py  GALAXYID
 
-e.g., python make_gist_config.py IC3392 -cpu 16 -center 218,218
+e.g., python make_gist_config_try.py IC3392
 
-NOTE: -cpu and -center values are optional and set to 16 and 219,219, respectively. 
-If these are fine, you can just run
+By default, make_gist_config_try.py uses:
 
->>>> python make_gist_config.py  GALAXYID
+-- -cpu 128
+-- the galaxy centre from cube_centers_v3tk.csv
+
+Special case:
+
+-- NGC4567_8 is a combined cube. The cube centre table contains NGC4567_8, but
+   the MAUVE setup FITS table contains separate rows for NGC4567 and NGC4568.
+   make_gist_config_try.py keeps NGC4567_8 as RUN_ID/INPUT/MASK and uses the
+   mean z, EB-V and sigma from the NGC4567 and NGC4568 setup-table rows.
+
+If you need to override the CPU count or centre manually, run:
+
+>>> python make_gist_config_try.py  GALAXYID  -cpu NN -center NN,NN
+
+e.g., python make_gist_config_try.py IC3392 -cpu 128 -center 219,219
 
 This will create a .yaml file (e.g., IC3392_MAUVE_MasterConfig_v7.6.8_setonix.yaml) ready for you to use. 
 
@@ -79,8 +98,6 @@ Before running GIST, make sure that:
 #
 # HAVE FUN!!!!!
 ##############################################################################################################
-
-
 
 
 

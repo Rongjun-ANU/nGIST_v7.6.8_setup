@@ -1,5 +1,9 @@
 # nGIST v7.6.8 MAUVE Setonix setup
 
+> WARNING: use `make_gist_config_try.py` to generate the current YAML files.
+> The older `make_gist_config.py` is kept for reference/provenance and should
+> not be the default script for this setup.
+
 This repository contains the MAUVE configuration setup files used to generate
 nGIST/GIST YAML configuration files for the v7.6.8 Setonix runs.
 
@@ -12,8 +16,8 @@ version-controlled place.
 ```text
 config_setup/
   MAUVE_MasterConfig_v7.6.8_setonix.yaml       # master nGIST/GIST config
-  make_gist_config.py                          # standard config generator
-  make_gist_config_try.py                      # local-validation generator
+  make_gist_config_try.py                      # actual generator to run
+  make_gist_config.py                          # older/reference generator
   GIST_setupinput_v1.fits                      # pointer to setup FITS table
   cube_centers_v3tk.csv                        # cube centers for v3tk cubes
   *_MAUVE_MasterConfig_v7.6.8_setonix.yaml     # generated galaxy configs
@@ -33,22 +37,23 @@ config_setup/MAUVE_MasterConfig_v7.6.8_setonix.yaml
 
 Important current settings include:
 
-- Wavelength range: `4800-9100 Angstrom`
+- Wavelength range: `4800-8900 Angstrom`
 - Voronoi target S/N: `40`
 - Velocity scale: `41 km/s`
 - Stellar/SFH mask: `specMask_KIN_narrow10`
 - Gas mask: `specMask_GAS_narrow10`
+- Gas emission-line config: `emissionLines_ppxf_8900.config`
 - Gas fitting level: `BOTH`
 - Setonix cube path: `/scratch/pawsey1308/mauve/cubes/v3tk/`
 - Setonix product path: `/scratch/pawsey1308/mauve/products/v3tk_v7.6.8/`
 
 ## Creating a galaxy YAML file
 
-Run the generator from inside `config_setup`:
+Run `make_gist_config_try.py` from inside `config_setup`:
 
 ```bash
 cd config_setup
-python make_gist_config.py IC3392 -cpu 128 -center 219,219
+python make_gist_config_try.py IC3392
 ```
 
 This creates:
@@ -70,28 +75,31 @@ The script fills galaxy-specific values from the setup input table:
 - `KIN.SIGMA`
 - `CONT.SIGMA`
 
-## Local validation variant
-
-`make_gist_config_try.py` is a local-validation version of the generator. It
-adds two conveniences:
-
-- It can resolve `GIST_setupinput_v1.fits` when that file is a text pointer to a
-  FITS file under `input_tables/`.
-- If `-center` is not supplied, it reads the cube center from
-  `cube_centers_v3tk.csv`.
-
-Example:
-
-```bash
-cd config_setup
-python make_gist_config_try.py IC3392
-```
-
 Manual center override:
 
 ```bash
 python make_gist_config_try.py IC3392 -cpu 128 -center 219,219
 ```
+
+## Why `make_gist_config_try.py`
+
+`make_gist_config_try.py` is the script used for this setup. It adds two
+important conveniences compared with the older `make_gist_config.py`:
+
+- It can resolve `GIST_setupinput_v1.fits` when that file is a text pointer to a
+  FITS file under `input_tables/`.
+- If `-center` is not supplied, it reads the cube center from
+  `cube_centers_v3tk.csv`.
+- It handles the combined `NGC4567_8` cube, whose cube-center row is combined
+  but whose setup-table rows are still listed separately as `NGC4567` and
+  `NGC4568`.
+
+The original `make_gist_config.py` remains in the repository as a reference to
+the older workflow.
+
+For `NGC4567_8`, the generated config keeps `NGC4567_8` as the `RUN_ID`,
+input cube name, and mask name. The script uses the mean `z`, `EBmV`, and
+initial `SIGMA` from the separate `NGC4567` and `NGC4568` setup-table rows.
 
 ## Current generated configs
 
@@ -102,6 +110,7 @@ The repository currently includes generated v7.6.8 Setonix configs for:
 - `NGC4396`
 - `NGC4419`
 - `NGC4501`
+- `NGC4567_8`
 - `NGC4698`
 
 ## Required Python packages
