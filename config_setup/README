@@ -1,0 +1,86 @@
+#########################################################################################################
+####
+#### Instructions on how to create GIST .yaml configuration files for MAUVE data products
+####
+#### v.1 - created by L. Cortese on Jan 12, 2024
+####
+####        Last updated - Mar 20, 2026
+####
+#########################################################################################################
+#########################################################################################################
+
+
+#########################################################################################################
+####    READ THIS FIRST #################################################################################
+#########################################################################################################
+
+These instructions are intended to simplify and homogenize the set-up of GIST configuration files
+used as input to run GIST and create MAUVE data products.
+
+You do need:
+
+-- A MAUVE GIST master configuration file: i.e. MAUVE_MasterConfig_v7.6.8_setonix.yaml
+   This file includes all the important settings for the GIST MAUVE runs. 
+   The file name includes the version of GIST on which is based and the SN to which cubes are binned.
+
+
+-- The MAUVE GIST set-up file including ID, z, EB-V and velocity dispersion of all MAUVE targets
+   These are used to create the .yaml file as they are needed to currently run GIST
+
+
+ **************************************************************************************************
+ *** You should not edit this file without authorization by the data prodcuts working group ***  
+ *** Any changes should also be reported to the CHANGE_LOG file AND to the #gist-setup Slack channel
+ ***
+ *** If you need to change the file, please copy the current file (before changes) to the "old" folder
+ *** Ideally add a sub-fix with the date in which the file has been changed.  
+ *************************************************************************************************** 
+
+
+#############################################################################################################
+#
+# HOW TO CREATE A .YAML GIST CONFIGURATION FILE ############################################################
+#
+#############################################################################################################
+
+First, make sure you know:
+
+-- How many CPUs you want to use
+-- The coordinates (in pixels) of the centre of the cube
+-- Check that the name of the master_config, mauve_info_file and cube_sub listed in the "make_gist_config" file are correct. 
+
+
+Then, you can run 
+
+>>> python make_gist_config.py  GALAXYID  -cpu NN -center NN,NN
+
+e.g., python make_gist_config.py IC3392 -cpu 16 -center 218,218
+
+NOTE: -cpu and -center values are optional and set to 16 and 219,219, respectively. 
+If these are fine, you can just run
+
+>>>> python make_gist_config.py  GALAXYID
+
+This will create a .yaml file (e.g., IC3392_MAUVE_MasterConfig_v7.6.8_setonix.yaml) ready for you to use. 
+
+############################################################################################################
+# LAST CHECKS
+############################################################################################################
+Before running GIST, make sure that:
+
+- you copy the .yaml file created in a suitable folder. Please do not leave it in the folder where this README is located
+
+- make sure that your "configFiles" folder is up-to-date (in case of recent GIST updates) and the "defaultDir" file is in order
+
+- make sure you that you have all the relevant stellar population models in the "spectralTemplates" folder
+
+##############################################################################################################  
+# You are good to go!
+#
+# HAVE FUN!!!!!
+##############################################################################################################
+
+
+
+
+

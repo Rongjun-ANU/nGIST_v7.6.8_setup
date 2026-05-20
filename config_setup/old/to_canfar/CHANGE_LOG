@@ -1,0 +1,16 @@
+##################################
+------------------------------------------------------------------------------------------
+DATE          		DESCRIPTION
+------------------------------------------------------------------------------------------
+30-09-2024			Updated GIST_setupinput_v1.fits to fix issues with some redshifts
+					Checked all values with NED and used z(helio) for the whole sample
+
+					Updated nGIST configuration file. Based on v7.2 set-up. Changes with previous version are
+						- LMIN/LMAX_TOT match LMIN/LMAX_SNR
+						- MIN_SNR moved to 1.5
+						- BIAS set to AUTO (new value)
+						- SFH uses SPEC_KIN mask / REGUL_ERR : 100000 / MC_PPXF : 100 / LIBRARY : 'MILES_safe/
+						- LS uses NWALKER : 200 / NCHAIN : 200 
+
+
+#################################
