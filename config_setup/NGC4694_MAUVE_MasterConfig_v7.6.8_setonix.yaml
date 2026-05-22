@@ -1,8 +1,8 @@
 GENERAL:
-  RUN_ID: IC3392
-  INPUT: /scratch/pawsey1308/mauve/cubes/v3tk/IC3392_DATACUBE_FINAL_WCS_Pall_mad_red_v3tk.fits
+  RUN_ID: NGC4694
+  INPUT: /scratch/pawsey1308/mauve/cubes/v3tk/NGC4694_DATACUBE_FINAL_WCS_Pall_mad_red_v3tk.fits
   OUTPUT: /scratch/pawsey1308/mauve/products/v3tk_v7.6.8/
-  REDSHIFT: 0.005566
+  REDSHIFT: 0.003869
   PARALLEL: true
   NCPU: 128
   LSF_DATA: lsf_MUSE-WFM-MILES
@@ -12,16 +12,16 @@ GENERAL:
 READ_DATA:
   METHOD: MUSE_WFM
   DEBUG: false
-  ORIGIN: 219,219
+  ORIGIN: 220,221
   LMIN_TOT: 4800
   LMAX_TOT: 8900
   LMIN_SNR: 4800
   LMAX_SNR: 8900
-  EBmV: 0.0317
+  EBmV: 0.0332
 SPATIAL_MASKING:
   METHOD: default
   MIN_SNR: -10
-  MASK: IC3392_mask.fits
+  MASK: NGC4694_mask.fits
   THRESHOLD_METHOD: actual
 SPATIAL_BINNING:
   METHOD: voronoi
@@ -35,7 +35,7 @@ KIN:
   SPEC_MASK: specMask_KIN_narrow10
   LMIN: 4800
   LMAX: 8900
-  SIGMA: 82
+  SIGMA: 87
   BIAS: muse_snr_prefit
   MOM: 4
   ADEG: 23
@@ -56,7 +56,7 @@ CONT:
   SPEC_MASK: specMask_KIN_narrow10
   LMIN: 4800
   LMAX: 8900
-  SIGMA: 82
+  SIGMA: 87
   MOM: 4
   ADEG: 0
   MDEG: 23
