@@ -22,6 +22,7 @@ config_setup/
   27_creation.sh                               # create 26 YAMLs and 26 slurm scripts
   27_send.sh                                   # send generated files to Setonix
   27_setonix.sh                                # submit the 26 slurm scripts on Setonix
+  27_status.sh                                 # check completion/running/timeout status on Setonix
   GIST_setupinput_v1.fits                      # pointer to setup FITS table
   cube_centers_v3tk.csv                        # cube centers for v3tk cubes
   *_MAUVE_MasterConfig_v7.6.8_setonix.yaml     # generated galaxy configs
@@ -170,7 +171,7 @@ The send script copies:
 
 - The 26 generated YAML files to
   `/software/projects/pawsey1308/ngist_supplementary_public/ngistTutorial/configFiles/`
-- The 26 generated slurm scripts plus `27_setonix.sh` to
+- The 26 generated slurm scripts plus `27_setonix.sh` and `27_status.sh` to
   `/software/projects/pawsey1308/ngist_supplementary_public/ngistTutorial/`
 
 It uses `tar` streamed through `ssh`, not `scp`, because Setonix prints a login
@@ -192,6 +193,58 @@ sbatch {GALID}_v3tk_v7.6.8_setonix.slurm
 
 for all 26 cube IDs. The `sbatch` commands are issued one by one, but the jobs
 can then run together according to the Setonix scheduler.
+
+To check job completion and timeout status on Setonix, run from the same
+tutorial directory:
+
+```bash
+./27_status.sh
+```
+
+The status script reads each product `LOGFILE` under:
+
+```text
+/scratch/pawsey1308/mauve/products/v3tk_v7.6.8/{GALID}/LOGFILE
+```
+
+Finished jobs are identified by:
+
+```text
+MainPipeline: nGIST completed successfully.
+```
+
+For unfinished jobs, it checks the run log in the tutorial directory, for
+example:
+
+```text
+NGC4383_v3tk_v7.6.8.log
+```
+
+If the run log contains `DUE TO TIME LIMIT`, the status is reported as
+`TIMEOUT_RESBATCH` and the script prints the `sbatch` command to resubmit that
+galaxy. If the job is still visible in `squeue`, it is reported as `RUNNING`.
+If the run log exists but is still empty, it is reported as `RUNNING_EMPTY_LOG`.
+
+The report is printed to screen and saved in the current directory as:
+
+```text
+27_status_log_YYYYmmdd_HHMMSS.txt
+```
+
+For timeout jobs, the script also gives a conservative rough remaining-time
+estimate using finished-job LOGFILEs at the same latest detected pipeline
+stage. Because this setup runs gas fitting at `BOTH` levels, the scaling uses:
+
+```text
+GAS_WORK = SPECTRA + BINS
+```
+
+Here `SPECTRA` is the cube-read count from `Read a total of ... spectra`, used
+as the spaxel-level workload proxy, and `BINS` is the Voronoi-bin count.
+
+The estimate uses the maximum scaled remaining time from comparable finished
+jobs, not the median. These estimates are approximate because nGIST can skip
+completed modules after restart.
 
 ## Why `make_gist_config_try.py`
 
