@@ -1,12 +1,12 @@
 #!/bin/bash -l
 #SBATCH --account=pawsey1308
-#SBATCH --partition=work
+#SBATCH --partition=highmem
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=128
-#SBATCH --mem=230G
-#SBATCH --time=24:00:00
-#SBATCH --job-name=GALID_v3tk_v7.6.8
+#SBATCH --mem=980G
+#SBATCH --time=96:00:00
+#SBATCH --job-name=NGC4569_v3tk_v7.6.8
 #SBATCH --output=slurm-%j.out
 #SBATCH --error=slurm-%j.err
 #SBATCH --mail-user=rongjun.huang@research.uwa.edu.au,astro@rongjun-huang.com
@@ -29,9 +29,9 @@ mkdir -p /scratch/pawsey1308/mauve/products/v3tk_v7.6.8
 # run + stream output to both screen (slurm out) and logfile
 srun -n 1 -c $SLURM_CPUS_PER_TASK stdbuf -oL -eL \
   ngistenv1308 ngistPipeline \
-  --config configFiles/GALID_MAUVE_MasterConfig_v7.6.8_setonix.yaml \
+  --config configFiles/NGC4569_MAUVE_MasterConfig_v7.6.8_setonix.yaml \
   --default-dir configFiles/defaultDir \
-  2>&1 | tee GALID_v3tk_v7.6.8.log
+  2>&1 | tee NGC4569_v3tk_v7.6.8.log
 
 exit ${PIPESTATUS[0]}
 
