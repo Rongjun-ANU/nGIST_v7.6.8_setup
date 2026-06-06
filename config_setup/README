@@ -67,9 +67,13 @@ By default, make_gist_config_try.py uses:
 -- -cpu 128
 -- the galaxy centre from cube_centers_v3tk.csv
 
-Special case:
+Special cases:
 
--- NGC4567_8 is a combined cube. The cube centre table contains NGC4567_8, but
+-- The 27_*.sh batch scripts use the 40 target galaxy IDs listed in
+   27_galaxies.sh, including separate NGC4567 and NGC4568 entries.
+
+-- NGC4567_8 is still supported by make_gist_config_try.py as a historical
+   combined-cube ID. The cube centre table contains NGC4567_8, but
    the MAUVE setup FITS table contains separate rows for NGC4567 and NGC4568.
    make_gist_config_try.py keeps NGC4567_8 as RUN_ID/INPUT/MASK and uses the
    mean z, EB-V and sigma from the NGC4567 and NGC4568 setup-table rows.
@@ -98,6 +102,5 @@ Before running GIST, make sure that:
 #
 # HAVE FUN!!!!!
 ##############################################################################################################
-
 
 
