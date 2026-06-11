@@ -78,6 +78,9 @@ Special cases:
    make_gist_config_try.py keeps NGC4567_8 as RUN_ID/INPUT/MASK and uses the
    mean z, EB-V and sigma from the NGC4567 and NGC4568 setup-table rows.
 
+-- NGC4254, NGC4321 and NGC4535 use the fixed PHANGS-native cube inputs:
+   /scratch/pawsey1308/mauve/cubes/v3tk/{GALAXYID}_PHANGS_DATACUBE_native_fixed.fits
+
 If you need to override the CPU count or centre manually, run:
 
 >>> python make_gist_config_try.py  GALAXYID  -cpu NN -center NN,NN
@@ -102,5 +105,4 @@ Before running GIST, make sure that:
 #
 # HAVE FUN!!!!!
 ##############################################################################################################
-
 
