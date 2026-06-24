@@ -1,11 +1,11 @@
 #!/bin/bash -l
 #SBATCH --account=pawsey1308
-#SBATCH --partition=work
+#SBATCH --partition=highmem
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=128
-#SBATCH --mem=230G
-#SBATCH --time=24:00:00
+#SBATCH --mem=980G
+#SBATCH --time=96:00:00
 #SBATCH --job-name=NGC4321_v3tk_v7.6.8
 #SBATCH --output=slurm-%j.out
 #SBATCH --error=slurm-%j.err
