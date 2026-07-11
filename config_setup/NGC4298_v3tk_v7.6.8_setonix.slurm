@@ -1,6 +1,6 @@
 #!/bin/bash -l
 #SBATCH --account=pawsey1308
-#SBATCH --partition=long
+#SBATCH --partition=highmem
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=128
@@ -34,4 +34,3 @@ srun -n 1 -c $SLURM_CPUS_PER_TASK stdbuf -oL -eL \
   2>&1 | tee NGC4298_v3tk_v7.6.8.log
 
 exit ${PIPESTATUS[0]}
-

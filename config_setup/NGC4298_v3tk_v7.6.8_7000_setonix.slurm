@@ -1,6 +1,6 @@
 #!/bin/bash -l
 #SBATCH --account=pawsey1308
-#SBATCH --partition=long
+#SBATCH --partition=highmem
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=128
