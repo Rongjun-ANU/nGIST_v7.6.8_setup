@@ -4,7 +4,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=128
-#SBATCH --mem=230G
+#SBATCH --mem=980G
 #SBATCH --time=96:00:00
 #SBATCH --job-name=NGC4298_v3tk_v7.6.8
 #SBATCH --output=slurm-%j.out
@@ -34,3 +34,4 @@ srun -n 1 -c $SLURM_CPUS_PER_TASK stdbuf -oL -eL \
   2>&1 | tee NGC4298_v3tk_v7.6.8.log
 
 exit ${PIPESTATUS[0]}
+
