@@ -1,11 +1,11 @@
 #!/bin/bash -l
 #SBATCH --account=pawsey1308
-#SBATCH --partition=highmem
+#SBATCH --partition=work
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=128
-#SBATCH --mem=980G
-#SBATCH --time=96:00:00
+#SBATCH --mem=230G
+#SBATCH --time=24:00:00
 #SBATCH --job-name=NGC4689_v3tk_v7.6.8_7000_SFH16
 #SBATCH --output=slurm-%j.out
 #SBATCH --error=slurm-%j.err
@@ -23,13 +23,11 @@ export OMP_NUM_THREADS=1
 export OPENBLAS_NUM_THREADS=1
 export MKL_NUM_THREADS=1
 
-# Reuse the existing 7000 spatial mask under the new run's output prefix.
-product_dir=/scratch/pawsey1308/mauve/products/v3tk_v7.6.8_7000
-mkdir -p "${product_dir}/NGC4689_SFH16"
-if [[ ! -e "${product_dir}/NGC4689_SFH16/NGC4689_SFH16_mask.fits" ]]; then
-  cp "${product_dir}/NGC4689/NGC4689_mask.fits" \
-    "${product_dir}/NGC4689_SFH16/NGC4689_SFH16_mask.fits"
-fi
+# create output dir if not exist
+mkdir -p /scratch/pawsey1308/mauve/products/v3tk_v7.6.8_7000
+
+# Refuse missing, changed or unverified reused inputs.
+bash ./SFH16_ready.sh --check NGC4689
 
 # run + stream output to both screen (slurm out) and logfile
 srun -n 1 -c $SLURM_CPUS_PER_TASK stdbuf -oL -eL \
